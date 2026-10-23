@@ -1,0 +1,15 @@
+HTTrack3.49-2 launched on Fri, 23 Oct 2026 20:32:26 at https://gomining-llc.vercel.app +*.png +*.gif +*.jpg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(httrack -@i4 -O /storage/emulated/0/HTTrack/Websites/gominnig -iC1A25000k%Px%q0u1s2%s%u%fDaK0H0N0p3 https://gomining-llc.vercel.app +*.png +*.gif +*.jpg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2017], %s -->" -%l LANGUAGE_ISO,* )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+20:32:27	Error: 	"Not Found" (404) at link https://gomining-llc.vercel.app/mobile.css (from https://gomining-llc.vercel.app/)
+20:32:28	Error: 	"Not Found" (404) at link https://gomining-llc.vercel.app/Icons/rabby.png (from https://gomining-llc.vercel.app/wallet.html)
+20:32:28	Error: 	"Not Found" (404) at link https://gomining-llc.vercel.app/Icons/walletconnect.png (from https://gomining-llc.vercel.app/wallet.html)
+20:32:28	Error: 	"Not Found" (404) at link https://gomining-llc.vercel.app/Icons/cake.png (from https://gomining-llc.vercel.app/wallet.html)
+
+HTTrack Website Copier/3.49-2 mirror complete in 2 seconds : 58 links scanned, 53 files written (807713 bytes overall), no files updated [0 bytes received at 0 bytes/sec]
+(4 errors, 0 warnings, 0 messages)
